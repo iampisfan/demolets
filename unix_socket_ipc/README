@@ -1,0 +1,27 @@
+Try the socket IPC demo attached
+Put it to openwrt/package/utils/, make menuconfig, then select:
+Utilities  --->
+<*> demo_client....................................... socket IPC demo client
+<*> demo_server....................................... socket IPC demo server
+
+Server run cmd: demo_server &
+Client run cmd: demo_client –a xx:xx:xx:xx:xx:xx –m xx:xx:xx:xx:xx:xx –t xxxxx
+Usage:
+Options:\n"
+-a <alid>:            alid mac address 00:11:22:33:44:55
+-m <macaddr>:       mac addr 00:11:22:33:44:55
+-t <tlv>:             tlv string, first byte is messagetype, scond byte is TLV type, third byte is TLV length, other is TLV value
+
+Server can parse the message, and fill into a struct:
+struct tlv {
+        unsigned int messagetype;
+        unsigned int tlv_t;
+        unsigned int tlv_l;
+        char *tlv_v;
+};
+
+struct message {
+        unsigned int alid[6];
+        unsigned int macaddr[6];
+        struct tlv tlv;
+};
